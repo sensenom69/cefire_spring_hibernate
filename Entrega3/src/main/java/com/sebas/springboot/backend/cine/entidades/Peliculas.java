@@ -23,9 +23,22 @@ import jakarta.persistence.Table;
 public class Peliculas implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(name = "codigo", unique = true, nullable = false)
 	private int codigo;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tematica")
 	private Tematicas tematicas;
+	
+	@Column(name = "titulo", length = 50)
 	private String titulo;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "peliculas_actores", schema = "public", joinColumns = {
+			@JoinColumn(name = "pelicula", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "actor", nullable = false, updatable = false) })
 	private Set<Actores> actoreses = new HashSet<Actores>(0);
 
 	public Peliculas() {
@@ -42,10 +55,7 @@ public class Peliculas implements java.io.Serializable {
 		this.actoreses = actoreses;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-
-	@Column(name = "codigo", unique = true, nullable = false)
+	
 	public int getCodigo() {
 		return this.codigo;
 	}
@@ -54,8 +64,7 @@ public class Peliculas implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tematica")
+	
 	public Tematicas getTematicas() {
 		return this.tematicas;
 	}
@@ -64,7 +73,7 @@ public class Peliculas implements java.io.Serializable {
 		this.tematicas = tematicas;
 	}
 
-	@Column(name = "titulo", length = 50)
+	
 	public String getTitulo() {
 		return this.titulo;
 	}
@@ -73,10 +82,7 @@ public class Peliculas implements java.io.Serializable {
 		this.titulo = titulo;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "peliculas_actores", schema = "public", joinColumns = {
-			@JoinColumn(name = "pelicula", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "actor", nullable = false, updatable = false) })
+	
 	public Set<Actores> getActoreses() {
 		return this.actoreses;
 	}

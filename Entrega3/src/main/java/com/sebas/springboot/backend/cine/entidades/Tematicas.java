@@ -20,8 +20,15 @@ import jakarta.persistence.Table;
 public class Tematicas implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(name = "codigo", unique = true, nullable = false)
 	private int codigo;
+	
+	@Column(name = "descripcion", length = 50)
 	private String descripcion;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tematicas")
 	private Set<Peliculas> peliculases = new HashSet<Peliculas>(0);
 
 	public Tematicas() {
@@ -37,9 +44,7 @@ public class Tematicas implements java.io.Serializable {
 		this.peliculases = peliculases;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	@Column(name = "codigo", unique = true, nullable = false)
+	
 	public int getCodigo() {
 		return this.codigo;
 	}
@@ -48,7 +53,7 @@ public class Tematicas implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(name = "descripcion", length = 50)
+	
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -57,7 +62,7 @@ public class Tematicas implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tematicas")
+	
 	public Set<Peliculas> getPeliculases() {
 		return this.peliculases;
 	}

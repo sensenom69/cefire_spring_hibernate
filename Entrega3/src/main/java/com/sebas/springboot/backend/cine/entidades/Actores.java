@@ -22,8 +22,19 @@ import jakarta.persistence.Table;
 public class Actores implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(name = "codigo", unique = true, nullable = false)
 	private int codigo;
+	
+	@Column(name = "nombre", length = 50)
 	private String nombre;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "peliculas_actores", schema = "public", joinColumns = {
+			@JoinColumn(name = "actor", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "pelicula", nullable = false, updatable = false) })
 	private Set<Peliculas> peliculases = new HashSet<Peliculas>(0);
 
 	public Actores() {
@@ -39,9 +50,7 @@ public class Actores implements java.io.Serializable {
 		this.peliculases = peliculases;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	@Column(name = "codigo", unique = true, nullable = false)
+	
 	public int getCodigo() {
 		return this.codigo;
 	}
@@ -50,7 +59,7 @@ public class Actores implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(name = "nombre", length = 50)
+	
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -59,10 +68,7 @@ public class Actores implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "peliculas_actores", schema = "public", joinColumns = {
-			@JoinColumn(name = "actor", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "pelicula", nullable = false, updatable = false) })
+	
 	public Set<Peliculas> getPeliculases() {
 		return this.peliculases;
 	}
