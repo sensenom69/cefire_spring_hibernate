@@ -1,8 +1,11 @@
-package com.sebas.springboot.backend.cine.entidades;
+package com.sebas.springboot.backend.cine.models.entidades;
 // Generated 24 abr 2023 17:34:46 by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -68,7 +71,7 @@ public class Actores implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	
+	@JsonIgnoreProperties("actoreses")
 	public Set<Peliculas> getPeliculases() {
 		return this.peliculases;
 	}
