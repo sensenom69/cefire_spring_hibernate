@@ -51,10 +51,21 @@ public class ActoresRestController {
 	
 	@PostMapping("/actores")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Actores create(@RequestBody Actores actores) {
-		/////MODIFICAR por pelis???
-		this.actoresService.save(actores);
-		return actores;
+	public ResponseEntity<?> create(@RequestBody Actores actores) {
+		Actores actorNew = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			actorNew = actoresService.save(actores);
+			
+		}catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("mensaje", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		response.put("mensaje", "El actor ha sido creado con exito");
+		response.put("actor", actorNew);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/actores/{id}")

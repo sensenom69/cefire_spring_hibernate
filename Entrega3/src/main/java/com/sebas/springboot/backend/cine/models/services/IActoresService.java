@@ -7,7 +7,7 @@ public interface IActoresService {
 	
 	public List<Actores> findAll();
 	
-	public void save(Actores actor);
+	public Actores save(Actores actor);
 	
 	public Actores findById(Long id);
 	

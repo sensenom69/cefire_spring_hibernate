@@ -22,9 +22,8 @@ public class ActoresServiceImpl implements IActoresService {
 	}
 	@Override
 	@Transactional
-	public void save(Actores actor) {
-		actoresDao.save(actor);
-		
+	public Actores save(Actores actor) {
+		return actoresDao.save(actor);
 	}
 	@Override
 	@Transactional(readOnly = true)
