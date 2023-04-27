@@ -1,10 +1,14 @@
 package com.sebas.springboot.backend.cine.controllers;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sebas.springboot.backend.cine.models.entidades.Actores;
 import com.sebas.springboot.backend.cine.models.entidades.Peliculas;
 import com.sebas.springboot.backend.cine.models.services.IPeliculasService;
 
@@ -33,17 +38,38 @@ public class PeliculasRestController {
 	}
 	
 	@GetMapping("/peliculas/{id}")
-	public Peliculas show(@PathVariable Long id){
-		return peliculasService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id){
+		Peliculas pelicula = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			pelicula = peliculasService.findById(id);
+		}catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("mensaje", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Peliculas>(pelicula, HttpStatus.OK);
 	}
 	
 	@PostMapping("/peliculas")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Peliculas create(@RequestBody Peliculas peliculas) {
-		/////MODIFICAR por pelis???
-		this.peliculasService.save(peliculas);
-		return peliculas;
+	public ResponseEntity<?> create(@RequestBody Peliculas peliculas) {
+		Peliculas peliNew = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			peliNew = peliculasService.save(peliculas);
+			
+		}catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("mensaje", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		response.put("mensaje", "El peli ha sido creado con exito");
+		response.put("actor", peliNew);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
+	
 	
 	@PutMapping("/peliculas/{id}")
 	@ResponseStatus(HttpStatus.CREATED)

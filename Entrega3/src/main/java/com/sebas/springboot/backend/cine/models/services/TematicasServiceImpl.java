@@ -22,9 +22,9 @@ public class TematicasServiceImpl implements ITematicasService {
 	}
 	@Override
 	@Transactional
-	public void save(Tematicas tematica) {
-		tematicaDao.save(tematica);
-		
+	public Tematicas save(Tematicas tematica) {
+		return tematicaDao.save(tematica);
+		 
 	}
 	@Override
 	@Transactional(readOnly = true)

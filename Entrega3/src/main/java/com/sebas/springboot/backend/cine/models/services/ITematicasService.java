@@ -7,7 +7,7 @@ public interface ITematicasService {
 	
 	public List<Tematicas> findAll();
 	
-	public void save(Tematicas tematica);
+	public Tematicas save(Tematicas tematica);
 	
 	public Tematicas findById(Long id);
 	
