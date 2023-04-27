@@ -7,7 +7,7 @@ public interface IPeliculasService {
 	
 	public List<Peliculas> findAll();
 	
-	public void save(Peliculas pelicula);
+	public Peliculas save(Peliculas pelicula);
 	
 	public Peliculas findById(Long id);
 	
