@@ -81,10 +81,20 @@ public class PeliculasRestController {
 		return currentPelicula;
 	}
 	
-	@DeleteMapping("/peliculas/{id}")
+
+	@DeleteMapping("peliculas/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id) {
-		Peliculas currentPelicula = this.peliculasService.findById(id);
-		this.peliculasService.delete(currentPelicula);
+	public ResponseEntity<?> delete(@PathVariable Long id){
+		Map<String,Object> response = new HashMap<>();
+		try {
+			this.peliculasService.delete(this.peliculasService.findById(id));
+		} catch (DataAccessException e) {  // Error al acceder a la base de datos
+			response.put("mensaje", "Error al eliminar el id");
+			response.put("error", e.getMessage().concat(":")
+					.concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		}
+		response.put("mensaje", "La película se ha borrado correctamente");
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 }
