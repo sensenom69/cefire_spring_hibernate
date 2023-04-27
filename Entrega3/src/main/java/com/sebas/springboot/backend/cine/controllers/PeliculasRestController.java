@@ -87,7 +87,7 @@ public class PeliculasRestController {
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		Map<String,Object> response = new HashMap<>();
 		try {
-			this.peliculasService.delete(this.peliculasService.findById(id));
+			this.peliculasService.delete(id);
 		} catch (DataAccessException e) {  // Error al acceder a la base de datos
 			response.put("mensaje", "Error al eliminar el id");
 			response.put("error", e.getMessage().concat(":")

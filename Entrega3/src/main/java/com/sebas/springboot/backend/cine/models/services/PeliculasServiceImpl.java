@@ -34,9 +34,9 @@ public class PeliculasServiceImpl implements IPeliculasService {
 	}
 	@Override
 	@Transactional
-	public void delete(Peliculas pelicula) {
+	public void delete(Long id) {
 		// TODO Auto-generated method stub
-		peliculasDao.delete(pelicula);
+		peliculasDao.deleteById(id);
 	}
 
 }

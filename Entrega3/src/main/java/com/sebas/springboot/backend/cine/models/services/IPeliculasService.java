@@ -11,5 +11,5 @@ public interface IPeliculasService {
 	
 	public Peliculas findById(Long id);
 	
-	public void delete(Peliculas pelicula);
+	public void delete(Long id);
 }
